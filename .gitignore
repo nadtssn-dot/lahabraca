@@ -1,6 +1,7 @@
 # Large media files (videos, images - too big for Git)
 videos/
 *.png
+!qr-*.png
 *.jpg
 *.jpeg
 *.ttf
