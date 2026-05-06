@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LaHabra Tree</title>
+    <script src="vue.min.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Nunito';
+            src: url('fonts/Nunito-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        [v-cloak] { display: none; }
+        .container { 
+            position: relative; 
+            height: 100vh;
+            width: 100vw;
+            background: #000;
+        }
+        .background { 
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+        }
+        .button { 
+            position: absolute; 
+            width: 200px; 
+            height: 70px; 
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            font-family: 'Nunito', sans-serif;
+        }
+        .back-btn {
+            background: #8B4513;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Nunito', sans-serif;
+            float: left;
+        }
+        .back-btn:hover {
+            background: #703610;
+        }
+        .section-title {
+            color: #8B4513;
+            font-size: 36px;
+            margin: 20px 0;
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            clear: both;
+        }
+        .video-list {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .video-item {
+            padding: 20px;
+            margin: 10px auto;
+            background: #FFF5E6;
+            border: 1px solid #DEB887;
+            border-radius: 10px;
+            font-size: 22px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .video-item:hover {
+            background: #FFE6CC;
+            transform: translateX(10px);
+        }
+        .video-player {
+            width: 100%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <div class="container">
+            <img src="tree.png" alt="Tree" class="background">
+            <div class="button" style="left:15%; top:48%" @click="showVideos('Faith')" title="Faith"></div>
+            <div class="button" style="left:28%; top:25%" @click="showVideos('Business')" title="Business"></div>
+            <div class="button" style="right:25%; top:22%" @click="showVideos('Government')" title="Government"></div>
+            <div class="button" style="right:28%; top:42%" @click="showVideos('Education')" title="Education"></div>
+            <div class="button" style="right:22%; top:58%" @click="showVideos('Volunteer')" title="Volunteer"></div>
+        </div>
+
+        <!-- Video List Modal -->
+        <Transition name="fade">
+            <div v-if="showVideoList" class="modal">
+                <div class="modal-content">
+                    <button class="back-btn" @click="closeVideoList">← Back to Tree</button>
+                    <h2 class="section-title">{{ selectedSection }}</h2>
+                    <div class="video-list">
+                        <div 
+                            v-for="video in videos[selectedSection]" 
+                            :key="video.title"
+                            class="video-item"
+                            @click="playVideo(video)"
+                        >
+                            {{ video.title }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+
+        <!-- Video Player Modal -->
+        <Transition name="fade">
+            <div v-if="showVideoPlayer" class="modal">
+                <div class="modal-content">
+                    <button class="back-btn" @click="closeVideoPlayer">← Back to List</button>
+                    <h2 class="section-title">{{ selectedVideo.title }}</h2>
+                    <div class="video-player">
+                        <video 
+                            :src="selectedVideo.path" 
+                            controls 
+                            controlsList="nodownload"
+                            @ended="videoEnded"
+                            ref="videoPlayer"
+                        ></video>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const showVideoList = ref(false);
+                const showVideoPlayer = ref(false);
+                const selectedSection = ref('');
+                const selectedVideo = ref(null);
+                const videoPlayer = ref(null);
+
+                const videos = {
+                    Faith: [
+                        { title: "Methodist Church, Established 1913", path: "videos/faith/Methodist Church, Established 1913.mp4" },
+                        { title: "Love La Habra", path: "videos/faith/Love La Habra.mp4" },
+                        { title: "The Church at Green Hills", path: "videos/faith/The Church at Green Hills.mp4" },
+                        { title: "Our Lady of Guadalupe Church", path: "videos/faith/Our Lady of Guadalupe Church.mp4" }
+                    ],
+                    Business: [
+                        { title: "Pacific Electric & Union Pacific Railroads", path: "videos/business/Pacific Electric & Union Pacific Railroads.mp4" },
+                        { title: "Agricultural Roots", path: "videos/business/Agricultural Roots.mp4" },
+                        { title: "The Hass Avocado", path: "videos/business/The Hass Avocado.mp4" },
+                        { title: "Tadeo & Petra Gomez", path: "videos/business/Tadeo & Petra Gomez.mp4" },
+                        { title: "The Northgate Market", path: "videos/business/The Northgate Market.mp4" },
+                        { title: "El Cholo & Senor Campos", path: "videos/business/El Cholo & Señor Campos.mp4" }
+                    ],
+                    Education: [
+                        { title: "The Lowell Joint School District", path: "videos/education/The Lowell Joint School District.mp4" },
+                        { title: "La Habra City School District", path: "videos/education/La Habra City School District.mp4" },
+                        { title: "High School Education", path: "videos/education/High School Education.mp4" },
+                        { title: "Wilson School in the La Habra Camps", path: "videos/education/Wilson School in the La Habra Camps.mp4" }
+                    ],
+                    Government: [
+                        { title: "Vote to Incorporate", path: "videos/government/Vote to Incorporate.mp4" },
+                        { title: "La Habra First Mayor", path: "videos/government/La Habra’s First Mayor.mp4" },
+                        { title: "La Habra Migrant Camps", path: "videos/government/La Habra Migrant Camps.mp4" },
+                        { title: "Boulevard of the Bells", path: "videos/government/Boulevard of the Bells.mp4" },
+                        { title: "La Habra Early Settlers", path: "videos/government/La Habra Early Settlers.mp4" }
+                    ],
+                    Volunteer: [
+                        { title: "La Habra Lions Club", path: "videos/volunteer/La Habra Lions Club.mp4" },
+                        { title: "La Habra Service Clubs", path: "videos/volunteer/La Habra Service Clubs.mp4" },
+                        { title: "American Legion", path: "videos/volunteer/American Legion.mp4" },
+                        { title: "Kaboom!", path: "videos/volunteer/Kaboom!.mp4" },
+                        { title: "La Habra Woman's Club", path: "videos/volunteer/La Habra Woman’s Club.mp4" }
+                    ]
+                };
+
+                const showVideos = (section) => {
+                    selectedSection.value = section;
+                    showVideoList.value = true;
+                };
+
+                const closeVideoList = () => {
+                    showVideoList.value = false;
+                    selectedSection.value = "";
+                };
+
+                const playVideo = (video) => {
+                    selectedVideo.value = video;
+                    showVideoList.value = false;
+                    showVideoPlayer.value = true;
+                    setTimeout(() => {
+                        if (videoPlayer.value) {
+                            videoPlayer.value.currentTime = 0;
+                            videoPlayer.value.play();
+                        }
+                    }, 100);
+                };
+
+                const closeVideoPlayer = () => {
+                    if (videoPlayer.value) {
+                        videoPlayer.value.pause();
+                    }
+                    showVideoPlayer.value = false;
+                    showVideoList.value = true;
+                };
+
+                const videoEnded = () => {
+                    setTimeout(() => {
+                        closeVideoPlayer();
+                    }, 1500);
+                };
+
+                return {
+                    showVideoList,
+                    showVideoPlayer,
+                    selectedSection,
+                    selectedVideo,
+                    videoPlayer,
+                    videos,
+                    showVideos,
+                    closeVideoList,
+                    playVideo,
+                    closeVideoPlayer,
+                    videoEnded
+                };
+            }
+        }).mount("#app");
+    </script>
+</body>
+</html>

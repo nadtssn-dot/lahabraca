@@ -1,0 +1,16 @@
+# Large media files (videos, images - too big for Git)
+videos/
+*.png
+*.jpg
+*.jpeg
+*.ttf
+*.mp4
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

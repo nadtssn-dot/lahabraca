@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>La Habra Early Settlers - Old Settlers Museum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Earpiece Prompt Overlay */
+        .earpiece-prompt {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .earpiece-prompt.hidden {
+            display: none;
+        }
+
+        .earpiece-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.8;
+        }
+
+        .earpiece-prompt h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .earpiece-prompt p {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .btn-primary {
+            background: #c9a55a;
+            color: #000;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            background: #b8954a;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #888;
+            border: 2px solid #333;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        /* Video Container */
+        .video-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Info Section */
+        .info-section {
+            padding: 24px 20px;
+            background: linear-gradient(to top, #0a0a0a 0%, #111 100%);
+            border-top: 1px solid #222;
+        }
+
+        .info-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #c9a55a;
+        }
+
+        .info-section p {
+            font-size: 15px;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .museum-branding {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            text-align: center;
+        }
+
+        .museum-branding span {
+            font-size: 13px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Loading State */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #888;
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Earpiece Prompt (shown first) -->
+    <div class="earpiece-prompt" id="earpiecePrompt">
+        <div class="earpiece-icon">🎧</div>
+        <h1>For the Best Experience</h1>
+        <p>Please use earbuds or earpieces<br>to hear the audio clearly</p>
+        <button class="btn-primary" id="startBtn">I Have Earbuds</button>
+        <button class="btn-secondary" id="skipBtn">Skip This Step</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="video-container">
+        <div class="video-wrapper">
+            <div class="loading" id="loadingMsg">Loading video...</div>
+            <video
+                id="videoPlayer"
+                playsinline
+                controls
+                controlsList="nodownload"
+                preload="metadata"
+            >
+                <source src="videos/government/La Habra Early Settlers.mp4" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+        </div>
+
+        <div class="info-section">
+            <h2>La Habra Early Settlers</h2>
+            <p>Discover the stories of the families who first settled this valley and built the community that became La Habra.</p>
+
+            <div class="museum-branding">
+                <span>Old Settlers Museum &middot; La Habra, CA</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const earpiecePrompt = document.getElementById('earpiecePrompt');
+        const startBtn = document.getElementById('startBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const loadingMsg = document.getElementById('loadingMsg');
+
+        // Hide prompt and prepare to play
+        const dismissPrompt = () => {
+            earpiecePrompt.classList.add('hidden');
+
+            // Small delay to let video buffer
+            setTimeout(() => {
+                loadingMsg.classList.add('hidden');
+                videoPlayer.play().catch(err => {
+                    console.log('Autoplay prevented:', err);
+                    // User will need to tap play button
+                });
+            }, 300);
+        };
+
+        startBtn.addEventListener('click', dismissPrompt);
+        skipBtn.addEventListener('click', dismissPrompt);
+
+        // Video load handling
+        videoPlayer.addEventListener('loadeddata', () => {
+            loadingMsg.textContent = 'Ready to play';
+        });
+
+        videoPlayer.addEventListener('waiting', () => {
+            loadingMsg.classList.remove('hidden');
+            loadingMsg.textContent = 'Buffering...';
+        });
+
+        videoPlayer.addEventListener('playing', () => {
+            loadingMsg.classList.add('hidden');
+        });
+
+        // Prevent screen sleep during playback (optional, browser support varies)
+        let wakeLock = null;
+        const requestWakeLock = async () => {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.acquire('screen');
+                }
+            } catch (err) {
+                console.log('Wake Lock not supported:', err);
+            }
+        };
+
+        videoPlayer.addEventListener('play', requestWakeLock);
+        videoPlayer.addEventListener('pause', () => {
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+        });
+    </script>
+</head>
+</body>
+</html>
