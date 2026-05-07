@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Habra Historical Museum — Embrace History</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =============================================
+           DESIGN SYSTEM - La Habra Historical Museum
+           ============================================= */
+
+        :root {
+            /* Color Palette */
+            --heritage-gold: #C9A55A;
+            --heritage-gold-light: #D4AF6A;
+            --museum-charcoal: #1A1A1A;
+            --museum-charcoal-light: #2A2A2A;
+            --archive-white: #F8F6F0;
+            --sepia: #8B7355;
+            --bronze: #6B5D4F;
+            --cream: #FFF9F0;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--museum-charcoal);
+            background: var(--archive-white);
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 48px; }
+        h2 { font-size: 36px; }
+        h3 { font-size: 28px; }
+        h4 { font-size: 24px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; }
+            h2 { font-size: 28px; }
+            h3 { font-size: 24px; }
+        }
+
+        a {
+            color: var(--heritage-gold);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--heritage-gold-light);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-md);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .btn-primary {
+            background: var(--heritage-gold);
+            color: var(--museum-charcoal);
+        }
+
+        .btn-primary:hover {
+            background: var(--heritage-gold-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--heritage-gold);
+            border: 2px solid var(--heritage-gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--heritage-gold);
+            color: var(--museum-charcoal);
+        }
+
+        .btn-lg {
+            padding: 18px 40px;
+            font-size: 18px;
+        }
+
+        /* =============================================
+           HEADER & NAVIGATION
+           ============================================= */
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--museum-charcoal);
+            z-index: 1000;
+            transition: background var(--transition-base);
+        }
+
+        .header.scrolled {
+            background: var(--museum-charcoal);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--archive-white);
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .nav-link {
+            color: var(--archive-white);
+            font-size: 15px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: var(--space-sm) 0;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--heritage-gold);
+            transition: width var(--transition-base);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--heritage-gold);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-sm);
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: var(--archive-white);
+            margin: 5px 0;
+            transition: all var(--transition-fast);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--museum-charcoal);
+                flex-direction: column;
+                padding: var(--space-lg);
+                gap: var(--space-md);
+            }
+
+            .nav.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+
+        /* =============================================
+           HERO SECTION
+           ============================================= */
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(135deg, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.4) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: var(--space-xl);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-heading);
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--archive-white);
+            margin-bottom: var(--space-md);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 22px;
+            color: var(--archive-white);
+            margin-bottom: var(--space-2xl);
+            font-weight: 300;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .hero-tagline {
+                font-size: 48px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =============================================
+           WELCOME SECTION
+           ============================================= */
+
+        .welcome {
+            padding: var(--space-3xl) 0;
+            background: var(--archive-white);
+        }
+
+        .welcome-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+        }
+
+        .welcome-content h2 {
+            color: var(--museum-charcoal);
+            margin-bottom: var(--space-lg);
+            position: relative;
+            display: inline-block;
+        }
+
+        .welcome-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--heritage-gold);
+        }
+
+        .welcome-text {
+            color: var(--sepia);
+            margin-bottom: var(--space-lg);
+        }
+
+        .welcome-info {
+            background: var(--cream);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            margin-top: var(--space-xl);
+        }
+
+        .welcome-info-item {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .welcome-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .welcome-info-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--heritage-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .welcome-info-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--museum-charcoal);
+        }
+
+        .welcome-info-text strong {
+            display: block;
+            color: var(--museum-charcoal);
+            margin-bottom: var(--space-xs);
+        }
+
+        .welcome-info-text span {
+            color: var(--sepia);
+            font-size: 15px;
+        }
+
+        .welcome-image {
+            position: relative;
+        }
+
+        .welcome-image img {
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .welcome-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--heritage-gold);
+            opacity: 0.2;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @media (max-width: 900px) {
+            .welcome-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .welcome-image {
+                order: -1;
+            }
+        }
+
+        /* =============================================
+           FEATURED VIDEO SECTION
+           ============================================= */
+
+        .featured-video {
+            padding: var(--space-3xl) 0;
+            background: var(--museum-charcoal);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .section-header h2 {
+            color: var(--heritage-gold);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-header p {
+            color: var(--archive-white);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--archive-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+            background: #000;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: var(--space-xl);
+        }
+
+        .video-info h3 {
+            color: var(--museum-charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .video-info p {
+            color: var(--sepia);
+            margin-bottom: var(--space-md);
+        }
+
+        .video-link {
+            color: var(--heritage-gold);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .video-link:hover {
+            color: var(--heritage-gold-light);
+        }
+
+        /* =============================================
+           EXHIBITS SECTION
+           ============================================= */
+
+        .exhibits {
+            padding: var(--space-3xl) 0;
+            background: var(--archive-white);
+        }
+
+        .exhibits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .exhibit-card {
+            background: var(--cream);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: transform var(--transition-base), box-shadow var(--transition-base);
+        }
+
+        .exhibit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .exhibit-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .exhibit-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+
+        .exhibit-card:hover .exhibit-image img {
+            transform: scale(1.1);
+        }
+
+        .exhibit-badge {
+            position: absolute;
+            top: var(--space-md);
+            left: var(--space-md);
+            background: var(--heritage-gold);
+            color: var(--museum-charcoal);
+            padding: var(--space-xs) var(--space-md);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: var(--radius-sm);
+        }
+
+        .exhibit-content {
+            padding: var(--space-lg);
+        }
+
+        .exhibit-content h3 {
+            color: var(--museum-charcoal);
+            font-size: 20px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .exhibit-content p {
+            color: var(--sepia);
+            font-size: 15px;
+            margin-bottom: var(--space-md);
+        }
+
+        .exhibit-link {
+            color: var(--heritage-gold);
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        @media (max-width: 900px) {
+            .exhibits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =============================================
+           VISIT CTA SECTION
+           ============================================= */
+
+        .visit-cta {
+            padding: var(--space-3xl) 0;
+            background: linear-gradient(135deg, var(--heritage-gold) 0%, var(--heritage-gold-light) 100%);
+            text-align: center;
+        }
+
+        .visit-cta h2 {
+            color: var(--museum-charcoal);
+            margin-bottom: var(--space-md);
+        }
+
+        .visit-cta p {
+            color: var(--museum-charcoal);
+            font-size: 20px;
+            margin-bottom: var(--space-xl);
+            opacity: 0.9;
+        }
+
+        .visit-cta .btn {
+            background: var(--museum-charcoal);
+            color: var(--archive-white);
+        }
+
+        .visit-cta .btn:hover {
+            background: var(--museum-charcoal-light);
+        }
+
+        /* =============================================
+           DONATION SECTION
+           ============================================= */
+
+        .donation {
+            padding: var(--space-3xl) 0;
+            background: var(--museum-charcoal);
+        }
+
+        .donation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+        }
+
+        .donation-content h2 {
+            color: var(--heritage-gold);
+            margin-bottom: var(--space-lg);
+        }
+
+        .donation-content p {
+            color: var(--archive-white);
+            margin-bottom: var(--space-lg);
+        }
+
+        .donation-amounts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .donation-amount-btn {
+            padding: var(--space-lg);
+            background: transparent;
+            border: 2px solid var(--heritage-gold);
+            color: var(--heritage-gold);
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .donation-amount-btn:hover,
+        .donation-amount-btn.active {
+            background: var(--heritage-gold);
+            color: var(--museum-charcoal);
+        }
+
+        .donation-custom {
+            width: 100%;
+            padding: var(--space-lg);
+            background: var(--museum-charcoal-light);
+            border: 2px solid var(--bronze);
+            color: var(--archive-white);
+            font-size: 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .donation-custom::placeholder {
+            color: var(--sepia);
+        }
+
+        .donation-image img {
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @media (max-width: 900px) {
+            .donation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-amounts {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+
+        .footer {
+            background: var(--museum-charcoal);
+            color: var(--archive-white);
+            padding: var(--space-2xl) 0 var(--space-lg);
+            border-top: 3px solid var(--heritage-gold);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .footer-brand .logo {
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-brand .logo-text {
+            font-size: 18px;
+        }
+
+        .footer-brand p {
+            color: var(--sepia);
+            font-size: 15px;
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-heading {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            color: var(--heritage-gold);
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-links a {
+            color: var(--sepia);
+            font-size: 15px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--heritage-gold);
+        }
+
+        .footer-contact p {
+            color: var(--sepia);
+            font-size: 15px;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer-contact svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--heritage-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--museum-charcoal-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background: var(--heritage-gold);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--archive-white);
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--museum-charcoal-light);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--sepia);
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <img src="https://static.wixstatic.com/media/2a2804_9b4cf67d5cd736777c1d47b1b681a5cb.jpg/v1/fill/w_144,h_108,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/2a2804_9b4cf67d5cd736777c1d47b1b681a5cb.jpg" alt="La Habra Historical Museum" class="logo-img">
+                <span class="logo-text">La Habra Historical Museum</span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#visit" class="nav-link">Visit</a>
+                <a href="#exhibits" class="nav-link">Exhibits</a>
+                <a href="#videos" class="nav-link">Videos</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#support" class="nav-link">Support</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="https://static.wixstatic.com/media/2a2804_338c6cc4c6e8e6a360384a184606b07e.jpg/v1/fill/w_200,h_330,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_338c6cc4c6e8e6a360384a184606b07e.jpg" alt="La Habra Historical Museum Building" class="hero-bg">
+
+        <div class="hero-content">
+            <h1 class="hero-tagline">Embrace History</h1>
+            <p class="hero-subtitle">Discover the rich heritage of La Habra — from early settlers to modern community. Your journey through time starts here.</p>
+
+            <div class="hero-buttons">
+                <a href="#visit" class="btn btn-primary btn-lg">Plan Your Visit</a>
+                <a href="#videos" class="btn btn-secondary btn-lg">Watch Videos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="welcome" id="about">
+        <div class="container">
+            <div class="welcome-grid">
+                <div class="welcome-content">
+                    <h2>Welcome to Our Museum</h2>
+                    <p class="welcome-text">
+                        The La Habra Historical Museum serves as a center for gathering, preserving, and interpreting
+                        significant historical artifacts to educate the public about La Habra's rich heritage.
+                    </p>
+                    <p class="welcome-text">
+                        Housed in a historic 1935 WPA (Works Progress Administration) building that originally served
+                        as the La Habra library until 1967, our museum showcases over 2,000 artifacts spanning from
+                        the mission days through the agricultural era, oil discovery, and the development of our
+                        beloved city.
+                    </p>
+
+                    <div class="welcome-info">
+                        <div class="welcome-info-item">
+                            <div class="welcome-info-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            </div>
+                            <div class="welcome-info-text">
+                                <strong>Location</strong>
+                                <span>215 E. La Habra Blvd., La Habra, CA 90631</span>
+                            </div>
+                        </div>
+                        <div class="welcome-info-item">
+                            <div class="welcome-info-icon">
+                                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                            </div>
+                            <div class="welcome-info-text">
+                                <strong>Hours</strong>
+                                <span>Saturday 12:00 PM - 4:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="welcome-info-item">
+                            <div class="welcome-info-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            </div>
+                            <div class="welcome-info-text">
+                                <strong>Admission</strong>
+                                <span>FREE — All are welcome</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-image">
+                    <img src="https://static.wixstatic.com/media/2a2804_0d16e24fc98aac40b9baae920e182486.jpg/v1/fill/w_221,h_221,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_0d16e24fc98aac40b9baae920e182486.jpg" alt="Museum Interior">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Video Section -->
+    <section class="featured-video" id="videos">
+        <div class="container">
+            <div class="section-header">
+                <h2>Experience La Habra's History</h2>
+                <p>Watch our curated video collection bringing local history to life through the stories of early settlers, businesses, and community leaders.</p>
+            </div>
+
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <!-- Placeholder for video - will be replaced with actual video embed -->
+                    <div style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;flex-direction:column;">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="#C9A55A" style="margin-bottom:16px;">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <p style="font-size:18px;">La Habra Early Settlers</p>
+                        <p style="font-size:14px;opacity:0.7;">Video will be embedded here</p>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>La Habra Early Settlers</h3>
+                    <p>Discover the stories of the families who first settled this valley and built the community that became La Habra. Part of our 25-video collection exploring Faith, Business, Education, Government, and Volunteer spirit.</p>
+                    <a href="#" class="video-link">
+                        View Full Video Gallery
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exhibits Section -->
+    <section class="exhibits" id="exhibits">
+        <div class="container">
+            <div class="section-header">
+                <h2>Explore Our Exhibits</h2>
+                <p>From agricultural heritage to military history, discover the stories that shaped La Habra.</p>
+            </div>
+
+            <div class="exhibits-grid">
+                <div class="exhibit-card">
+                    <div class="exhibit-image">
+                        <img src="https://static.wixstatic.com/media/2a2804_0af960029ff5eb425c9f44102af9579d.jpg/v1/fill/w_181,h_156,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_0af960029ff5eb425c9f44102af9579d.jpg" alt="Citrus Fair">
+                        <span class="exhibit-badge">Featured</span>
+                    </div>
+                    <div class="exhibit-content">
+                        <h3>Citrus Fair & Corn Festival</h3>
+                        <p>Celebrating La Habra's agricultural roots and annual community traditions.</p>
+                        <a href="#" class="exhibit-link">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="exhibit-card">
+                    <div class="exhibit-image">
+                        <img src="https://static.wixstatic.com/media/2a2804_53619df76817639bb235d1b2c85b142f.jpg/v1/fill/w_183,h_166,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_53619df76817639bb235d1b2c85b142f.jpg" alt="Defenders of Our Freedom">
+                        <span class="exhibit-badge">Current</span>
+                    </div>
+                    <div class="exhibit-content">
+                        <h3>Defenders of Our Freedom</h3>
+                        <p>Honoring La Habra's veterans and military service members throughout history.</p>
+                        <a href="#" class="exhibit-link">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="exhibit-card">
+                    <div class="exhibit-image">
+                        <img src="https://static.wixstatic.com/media/2a2804_d22df3197bdbc76860d8928416e5d2fd.jpg/v1/fill/w_166,h_131,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_d22df3197bdbc76860d8928416e5d2fd.jpg" alt="Historical Artifacts">
+                    </div>
+                    <div class="exhibit-content">
+                        <h3>Old La Habra Gallery</h3>
+                        <p>Photographs, documents, and artifacts from La Habra's early days.</p>
+                        <a href="#" class="exhibit-link">
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit CTA Section -->
+    <section class="visit-cta" id="visit">
+        <div class="container">
+            <h2>Plan Your Visit</h2>
+            <p>Open Saturdays 12-4 PM | Free Admission | Group tours available by appointment</p>
+            <a href="#" class="btn btn-lg">Get Directions</a>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section class="donation" id="support">
+        <div class="container">
+            <div class="donation-grid">
+                <div class="donation-content">
+                    <h2>Support Our Museum</h2>
+                    <p>Your donation helps preserve La Habra's history for future generations. Every contribution supports artifact preservation, educational programs, and community events.</p>
+
+                    <div class="donation-amounts">
+                        <button class="donation-amount-btn">$25</button>
+                        <button class="donation-amount-btn">$50</button>
+                        <button class="donation-amount-btn">$100</button>
+                        <button class="donation-amount-btn">$250</button>
+                    </div>
+
+                    <input type="number" class="donation-custom" placeholder="Custom Amount ($)">
+
+                    <button class="btn btn-primary btn-lg" style="width:100%;">Donate Now</button>
+
+                    <p style="color:var(--sepia);font-size:14px;margin-top:var(--space-md);">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                        Secure payment via Stripe. All donations are tax-deductible.
+                    </p>
+                </div>
+
+                <div class="donation-image">
+                    <img src="https://static.wixstatic.com/media/2a2804_d48e99d6188346122ee135f15c2f301d.jpg/v1/fill/w_191,h_138,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/2a2804_d48e99d6188346122ee135f15c2f301d.jpg" alt="Museum Support">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="https://static.wixstatic.com/media/2a2804_9b4cf67d5cd736777c1d47b1b681a5cb.jpg/v1/fill/w_144,h_108,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/2a2804_9b4cf67d5cd736777c1d47b1b681a5cb.jpg" alt="La Habra Historical Museum" class="logo-img" style="height:40px;">
+                        <span class="logo-text" style="font-size:16px;">La Habra Historical Museum</span>
+                    </div>
+                    <p>Preserving and interpreting La Habra's heritage since 1935. A program of the La Habra Old Settlers Historical Society.</p>
+
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/pages/La-Habra-Historical-Museum/111027668929543" class="social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/user/LHHistoricalMuseum" class="social-link" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-nav">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#visit">Plan Your Visit</a></li>
+                        <li><a href="#exhibits">Exhibits</a></li>
+                        <li><a href="#videos">Video Gallery</a></li>
+                        <li><a href="#support">Donate</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-nav">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Research Center</a></li>
+                        <li><a href="#">School Programs</a></li>
+                        <li><a href="#">Group Tours</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press Kit</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4 class="footer-heading">Contact</h4>
+                    <p>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        215 E. La Habra Blvd.<br>La Habra, CA 90631
+                    </p>
+                    <p>
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        (562) 691-0258
+                    </p>
+                    <p>
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        Suzette.lhhm@gmail.com
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 La Habra Historical Museum. All rights reserved. | A program of the La Habra Old Settlers Historical Society</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const nav = document.getElementById('nav');
+
+        mobileToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Donation Amount Selection
+        const donationBtns = document.querySelectorAll('.donation-amount-btn');
+        const donationCustom = document.querySelector('.donation-custom');
+
+        donationBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                donationBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                donationCustom.value = btn.textContent.replace('$', '');
+            });
+        });
+
+        // Active Navigation Link
+        const sections = document.querySelectorAll('section[id]');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+
+                if (navLink) {
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        navLink.classList.add('active');
+                    } else {
+                        navLink.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
